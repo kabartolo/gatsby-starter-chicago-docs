@@ -1,0 +1,272 @@
+---
+title: Quick Start
+description: 'A guide to getting started quickly for experienced developers'
+showTOC: false
+---
+export const themeOptionsFragment = "#theme-options";
+export const demoPath = "https://kabartolo.github.io/chicago-docs-demo/";
+export const configDocsPath = "https://kabartolo.github.io/chicago-docs-demo/docs/configuration/";
+
+<TwoColumnSection>
+
+## Overview
+
+The Chicago Docs theme for <a href="https://gatsbyjs.com">Gatsby</a> is a modern, professional docs site designed for open source projects.
+
+This guide gets you set up quickly if you're already familiar with Gatsby. It assumes you have Gatsby installed. If you're not familiar with Gatsby, see their <a href="https://www.gatsbyjs.com/docs/quick-start/">Quick Start</a> or <a href="https://www.gatsbyjs.com/tutorial/">Tutorial</a>.
+
+See the <a href={demoPath}>Chicago Docs Demo</a> for the demo and full documentation.
+
+</TwoColumnSection>
+
+<TwoColumnSection>
+
+## Quick Config
+
+The default configuration of `@kabartolo/gatsby-starter-chicago-docs` creates a site that looks and behaves like the <a href={demoPath}>demo</a>. You'll just need to customize your site details in the `gatsby-config.js` file for your site. This creates the site metadata and configures the manifest file. It also adds a logo and favicon.
+
+See <a href={configDocsPath}>Configuration</a> for a more in-depth guide on configuring your site.
+
+---
+
+<CodeExample title="site/gatsby-config.js" labels={['JavaScript']}>
+
+```js
+module.exports = {
+  siteMetadata: {
+    title: 'The Full Title of Your Project',
+    description: 'A brief description of your project and/or the site',
+    siteUrl: 'https://www.your-site.com',
+    siteLogo: 'logo.png', // adds the logo to the site
+    siteLanguage: 'en',
+    githubUrl: `https://www.github.com/repository/project-name/`,
+  },
+  plugins: [
+    '@kabartolo/gatsby-theme-chicago-docs',
+    {
+      resolve: 'gatsby-plugin-manifest',
+      options: {
+        name: 'The Full Title of Your Project',
+        short_name: 'Shorter Title',
+        start_url: '/',
+        background_color: '#fff',
+        theme_color: '#eee',
+        display: 'standalone',
+        icon: 'src/assets/favicon.ico', // creates a favicon
+      },
+    },
+  ],
+}
+
+```
+</CodeExample>
+
+</TwoColumnSection>
+
+<TwoColumnSection>
+
+## Menus
+
+The main menu and the sidebar menus are defined in your site's `gatsby-config.js` file. For more information on creating these menus, see <a href={`${configDocsPath}menus`}>Configuration: Menus</a>.
+
+This example shows how the main menu and sidebar menus are defined for the <a href={demoPath}>demo</a>s site.
+
+<Alert>
+
+If you specify `isGroup: true` for a list item, the item will appear as an accordion of posts from  `src/docs/{slug}` (see <a href="#theme-options">theme options</a> to change where your docs live).
+
+</Alert>
+
+---
+
+<CodeExample title="site/gatsby-config.js" labels={[ 'JavaScript' ]}>
+
+```js {6,16}num
+module.exports = {
+  plugins: [
+    {
+      resolve: '@kabartolo/gatsby-theme-chicago-docs',
+      options: {
+         mainMenu: [
+          {
+            name: 'Documentation',
+            path: '/docs/',
+          },
+          {
+            name: 'Tutorials',
+            path: '/tutorials/',
+          },
+        ],
+        sidebarMenus: [
+          {
+            name: 'Documentation',
+            slug: 'docs',
+            items: [
+              {
+                slug: 'quick-start',
+              },
+              {
+                name: 'Configuration',
+                slug: 'configuration',
+                isGroup: true,
+                items: [
+                  {
+                    slug: 'site-options'
+                  },
+                  {
+                    slug: 'menus',
+                  },
+                  {
+                    slug: 'search-config',
+                  },
+                ],
+              },
+              {
+                slug: 'mdx-guide',
+              },
+              {
+                slug: 'styling-and-shadowing',
+              },              
+              {
+                slug: 'components-and-hooks',
+              },
+              {
+                slug: 'errors',
+              },
+              {
+                slug: 'example-api-doc',
+              },              
+            ],
+          },
+          {
+            name: 'Tutorials',
+            slug: 'tutorials',
+            items: [
+              {
+                slug: 'tutorial1',
+              },
+            ],
+          },
+        ],
+      },  
+    },
+  ],
+}
+
+```
+
+</CodeExample>
+
+</TwoColumnSection>
+
+<TwoColumnSection>
+
+## Theme Options
+
+Several options are available to customize your site's directory structure and how the site behaves. See <a href={`${configDocsPath}site-options/#theme-options`}>Configuration: Theme Options</a> for more details.
+
+This example shows the theme options and their default values.
+
+---
+
+<CodeExample title="site/gatsby-config.js" labels={['JavaScript']}>
+
+```js
+module.exports = {
+  plugins: [
+    {
+      resolve: '@kabartolo/gatsby-theme-chicago-docs',
+      options: {
+        assetsPath: 'src/assets',
+        basePath: '/',
+        docsPath: 'src/docs',
+        pagesPath: 'src/mdxPages',
+        sidebarDepth: 3,
+        allowDocsSearch: true,
+        alwaysShowBreadcrumb: true,
+        alwaysShowPostNav: true,
+        alwaysShowSidebar: true,
+        alwaysShowTOC: true,
+        primaryResultsOnly: false,
+        sidebarAllowMultipleOpen: true,
+        sidebarAllowTOC: true,
+        skipMDXConfig: false,
+        toggleTheme: true,
+      }
+    }
+  ]
+}
+
+```
+
+</CodeExample>
+
+</TwoColumnSection>
+
+<TwoColumnSection>
+
+## Creating Docs
+
+Docs are MDX files that are displayed using the Doc page component. Docs can be navigated in the sidebar. A doc includes breadcrumb links at the top of the doc page; these are based on the nesting of the post in the <a href={`${configDocsPath}menus/#sidebar-menu`}>sidebar menu</a> defined by you. The links to the previous and next docs at the bottom of the doc page are also determined by this sidebar menu.
+
+A table of contents (using the TOC component) also appears for each doc.
+
+You can customize how all docs appear using the appropriate <a href={themeOptionsFragment}>theme option</a>, such as `alwaysShowTOC` (this option determines whether all docs show a table of contents). You can customize an individual doc using the corresponding <a href={`${configDocsPath}site-options/#frontmatter`}>frontmatter field</a>, such as `showTOC`.
+
+To create a doc, create an MDX file in `src/docs` (or the `docsPath` defined in the <a href={themeOptionsFragment}>theme options</a>):
+
+<CodeExample title="src/docs/example-doc.mdx" labels={['MDX']}>
+
+```js
+---
+title: Title for your doc
+shortTitle: Alternate (shorter) title used in navigation
+description: Brief description of the doc (used in metadata and search index)
+showBreadcrumb: true
+showPostNav: false
+showSidebar: true
+showTOC: false
+---
+
+## The first header should be an h2
+
+This post will not show previous/next navigation or a table of contents since
+`showPostNav` and `showTOC` are set to `false`.
+
+```
+
+</CodeExample>
+
+See <a href={`${configDocsPath}site-options/#frontmatter`}>Configuration: Frontmatter</a> for details on the available frontmatter fields. See <a href="https://kabartolo.github.io/chicago-docs-demo/docs/mdx-guide">Guide to MDX</a> for help writing MDX and Markdown.
+
+</TwoColumnSection>
+
+<TwoColumnSection>
+
+## Creating Pages
+
+Pages can be created using React, regular JavaScript, or MDX. An MDX file in `src/mdxPages` (or the `pagesPath` <a href={themeOptionsFragment}>theme option</a>) will be rendered using the Page component. This component provides all <a href={`${demoPath}docs/components-and-hooks/#chicago-docs-components`}>Chicago Docs components</a> but does **not** include layout features such as a sidebar or breadcrumb links.
+
+To create a non-doc page, create an MDX file in your specified `pagesPath` directory:
+
+<CodeExample title="src/mdxPages/example-doc.mdx" labels={['MDX']}>
+
+```js
+---
+title: Title for your page
+description: Brief description of the page (used in metadata)
+---
+
+## The first header should be an h2
+
+Use Chicago Docs components here.
+
+<TOC />
+
+```
+
+</CodeExample>
+
+See <a href={`${demoPath}/docs/mdx-guide`}>Guide to MDX</a> for help writing MDX and Markdown.
+
+</TwoColumnSection>

@@ -1,6 +1,6 @@
 {
 	"name": "@kabartolo/gatsby-starter-chicago-docs",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"license": "MIT",
 	"scripts": {
 		"build": "gatsby build",
